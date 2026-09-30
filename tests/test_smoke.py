@@ -15,4 +15,4 @@ def test_products_endpoint_is_up():
     assert len(products) > 0
 
 def test_ci_demo_failure():
-    assert 1 == 1
+    assert 1 == 2
