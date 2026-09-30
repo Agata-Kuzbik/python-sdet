@@ -1,0 +1,8 @@
+.venv/
+__pycache__/no
+*html
+__pycache__/
+.pytest_cache/
+tests/temp.py
+tests/temp_check.py
+tests/test_temp.py

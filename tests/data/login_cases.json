@@ -1,0 +1,7 @@
+[
+    { "email": "customer@test.io", "password": "customer123", "expected": 200 },
+    { "email": "customer@test.io", "password": "wrong", "expected": 401 },
+    { "email": "ghost@test.io", "password": "whatever", "expected": 401 },
+    { "email": "", "password": "", "expected": 400 },
+    { "email": " ", "password": "customer123", "expected": 401 }
+]

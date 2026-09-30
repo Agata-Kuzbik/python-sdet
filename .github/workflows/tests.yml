@@ -1,0 +1,61 @@
+name: tests
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the test project
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - name: Set up Node (for TestMarket Lab)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+      
+      - name: Install Playwright browser
+        run: playwright install --with-deps chromium
+
+      - name: Start TestMarket Lab
+        run: |
+          git clone https://github.com/TesterBaku/testmarket-lab
+          cd testmarket-lab
+          npm install
+          npm start &
+      
+      - name: Wait for the app
+        run: |
+          for i in $(seq 1 30); do
+            curl -sf http://localhost:3000/api/products && exit 0
+            sleep 1
+          done
+          echo "TestMarket Lab did not start in time" >&2
+          exit 1
+
+      - name: Run the tests
+        run: pytest -ra --html=report.html --self-contained-html
+
+      - name: Upload the report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pytest-report
+          path: report.html
+ 
+      
+
+
+
+
