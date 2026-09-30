@@ -13,3 +13,6 @@ def test_products_endpoint_is_up():
 
     assert isinstance(products, list)
     assert len(products) > 0
+
+def test_ci_demo_failure():
+    assert 1 == 2
